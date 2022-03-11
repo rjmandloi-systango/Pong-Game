@@ -1,0 +1,36 @@
+{
+    "name": "Ping-Pong Game",
+    "short_name": "Pong",
+    "start_url": "../HTML/home.html",
+    "background_color": "#92a8d1",
+    "description": "A simple game to play",
+    "theme_color": "#5FAAE5",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "../Images/icon-96x",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose" : "any"
+        },
+        {
+            "src": "../Images/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose" : "any"
+        },
+        {
+            "src": "../Images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose" : "any"
+        },
+        {
+            "src": "../Images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose" : "any"
+        }    
+    ]
+} 

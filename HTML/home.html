@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PONG GAME</title>
+
+    <!-- Bootstrap CSS Link-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Germania+One">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link href="http://fonts.cdnfonts.com/css/quarry-bones" rel="stylesheet">
+
+
+    <style>
+        body {
+            height: 100vh;
+            /* background: linear-gradient(to bottom, #ff9966 0%, #d30d70 100%); */
+
+            overflow: hidden;
+        }
+
+        .canvasbody {
+            background-color: black;
+            /* background-image: url("./img/giphy.gif"); */
+        }
+
+        @import url('http://fonts.cdnfonts.com/css/quarry-bones');
+
+
+        .font {
+            font-family: 'Quarry Bones', sans-serif;
+            font-size: 60px;
+        }
+    </style>
+</head>
+
+
+
+
+<body style="background-repeat: no-repeat; background-size: cover;" class="canvasbody">
+
+    <div id="div1">
+        <center>
+            <h1 style="color: rgb(255, 255, 255);" class="font">PONG GAME</h1>
+        </center>
+        <div class="row d-flex justify-content-center">
+            <button type="button" id="restart" class="btn btn-primary col-5 col-md-2 mx-1 my-2 p-0"
+                onclick="restart()">Restart</button>
+            <button type="button" class="btn btn-success  col-5 col-md-2 mx-1 my-2 p-0"
+                onclick="homePage()">Home</button>
+        </div>
+
+        
+        <h1 class="text-center" id="counter"></h1>
+    </div>
+
+    <script>
+        function homePage() {
+            location.href = "index.html";
+        }
+
+    //    let h= window.innerHeight;
+    //     let w=window.innerWidth;
+    //     if(h<668 && w<1314){
+    //         document.getElementById("demo").style.display="block";
+    //     }
+
+    </script>
+    <center>
+        <div class="row" style="margin-left: 50px;">
+            <div class="col-md-9">
+                <canvas id="pong" width="1100" height="525" style="border: 2px solid black"></canvas>
+            </div>
+            <div class="col-md-3">
+                <button type="button" style="margin-right: 40px;" id="upbtn" class="btn btn-primary float-end">UP</button><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <button type="button" id="dnbtn" style="margin-right: 40px;" class="btn btn-success  float-end">DOWN</button>
+            </div>
+        </div>
+        
+
+    </center>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+</body>
+<script src="../JS/index.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
+<script>
+    // const firebaseConfig = {
+    //     apiKey: "AIzaSyDvYUpA959BxHIyD3XZAsI1lUhpevrYuI8",
+    //     authDomain: "fir-11b55.firebaseapp.com",
+    //     databaseURL: "https://fir-11b55-default-rtdb.firebaseio.com",
+    //     projectId: "fir-11b55",
+    //     storageBucket: "fir-11b55.appspot.com",
+    //     messagingSenderId: "710305028586",
+    //     appId: "1:710305028586:web:da6ccf3153c05c91113a93"
+    // };
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA__XfsFX7-0WF8O4e3qSGQugCreDNg6lU",
+        authDomain: "pong-game-35db2.firebaseapp.com",
+        databaseURL: "https://pong-game-35db2-default-rtdb.firebaseio.com",
+        projectId: "pong-game-35db2",
+        storageBucket: "pong-game-35db2.appspot.com",
+        messagingSenderId: "1002349829950",
+        appId: "1:1002349829950:web:e84fb188618347fe59966f"
+    };
+
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+
+
+    let id = localStorage.getItem("ID");
+    // console.log("score", id);
+    function writeUserData(score1, score2, newRating, playerSecond) {
+        // alert(score + " " +localStorage.getItem("ID"));
+        firebase.database().ref('Player Details/').child(id).child("/player1").update({
+            Score: score2
+        });
+        firebase.database().ref('Player Details/').child(id).child("/player2").update({
+            Score: score1,
+            nickname: playerSecond
+
+        });
+        firebase.database().ref('Player Details/').child(id).child("/player1").update({
+            Rating: newRating
+        });
+        // firebase.database().ref('Player Details/').child(id).child("/player2").update({
+        //  nickname: playerSecond
+        // });
+        // alert(playerSecond)
+    }
+
+</script>
+
+</html>

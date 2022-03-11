@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <title>PONG GAME</title>
+  <link rel="stylesheet" href="CSS/style.css">
+  <link rel = "manifest" href = "manifest.json">
+</head>
+
+<style>
+.glow{
+     color: white;
+    text-align: center;
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate; 
+    animation: glow 1s ease-in-out infinite alternate;
+  } 
+
+  @-webkit-keyframes glow {
+    from {
+      text-shadow: 0 0 10px #eeeeee, 0 0 20px #000000, 0 0 30px #000000, 0 0 40px #000000,
+        0 0 50px #9554b3, 0 0 60px #9554b3, 0 0 70px #9554b3;
+    }
+
+    to {
+      text-shadow: 0 0 20px #eeeeee, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6,
+        0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+  } 
+
+  #glowBoard {
+    color: #0b860b;
+    text-align: center;
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate; 
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+
+  a {
+    background-color: lightblue;
+
+    border: none;
+    color: white;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  a:hover{
+    background-color:rgb(178, 33, 235);
+    color: red;
+  }
+</style>
+
+
+<body>
+
+  <center>
+    <h3>
+      <div style="margin-top: 100px;">
+        <h1 class="glow" >WELCOME TO PONG GAME</h1>
+
+      </div>
+    </h3>
+    <form>
+      <div class="mb-3">
+
+        <h5>
+          <label for="nickName" class="form-label" id="demo"
+            style="color: black ; font-family: Georgia, 'Times New Roman', Times, serif; display: none;"><b><i>Freind
+                ID</i>
+
+            </b></label><br>
+          <input style="display: none;" type="text" class="" id="demo1" aria-describedby="emailHelp">
+        </h5>
+
+        <h5>
+          <label for="nickName" class="form-label"
+            style="color: black ; font-family: Georgia, 'Times New Roman', Times, serif;"><b><i>Nick Name</i>
+
+            </b></label><br>
+          <input type="text" class="" id="nickName" aria-describedby="emailHelp">
+        </h5>
+
+        <div id="emailHelp" class="form-text">We'll never share your name with anyone else.</div>
+      </div>
+      <a   id="insert">Submit</a>
+      
+
+    </form>
+    <script>
+      function diplay_data() {
+        let btn = document.getElementById("demo");
+        let val = document.getElementById("demo1");
+
+        btn.style.display = "block";
+        val.style.display = "block";
+
+      }
+    </script>
+
+  </center>
+
+  <center>
+    <h2 id="glowBoard">Leader Board</h2>
+    <div style="max-width: 500px;
+    overflow: auto;
+height:248px;
+display:block;">
+      <table class=" table table-responsive table-striped table-hover table-bordered " id="board">
+        <tr>
+          <th>User Name</th>
+          <th>Rating</th>
+        </tr>
+      </table>
+    </div>
+  </center>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+  <!-- module enables ability to add and use external libraries in our code base. -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need 
+
+    let gameScores = [];
+    let playerId = 1;
+
+    document.getElementById("insert").addEventListener('click', insertUser);
+
+
+
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyA__XfsFX7-0WF8O4e3qSGQugCreDNg6lU",
+      authDomain: "pong-game-35db2.firebaseapp.com",
+      databaseURL: "https://pong-game-35db2-default-rtdb.firebaseio.com",
+      projectId: "pong-game-35db2",
+      storageBucket: "pong-game-35db2.appspot.com",
+      messagingSenderId: "1002349829950",
+      appId: "1:1002349829950:web:e84fb188618347fe59966f"
+    };
+
+
+    // Initialize Firebase
+    // The entry point of Firebase SDKs. It holds common configuration and state for Firebase APIs. Most applications don't need to directly interact with FirebaseApp.
+
+
+    const app = initializeApp(firebaseConfig);
+
+    import { getDatabase, ref, get, set, child, update, remove }
+      from "https://www.gstatic.com/firebasejs/9.6.6/firebase-database.js";
+
+    const db = getDatabase();
+
+
+
+
+
+    let currentSerialCount = 0;
+    serialcountFetch();
+
+
+    // FUNCTION CALL: Fetch data from  DB
+    allDataFetch();
+    let playerNames = [];
+    let playerID = [];
+
+    function allDataFetch() {
+      let scoreTable = document.getElementById("board");
+
+      const databaseRef = ref(db);
+
+      get(child(databaseRef, "Player Details/")).then((snapshot) => {
+        if (typeof (snapshot) !== 'undefined') {
+
+          if (snapshot.exists()) {
+            snapshot.forEach((child) => {
+
+              if (child.val().player2.nickname != "computer") {
+
+                playerNames.push(child.val().player1);
+                playerNames.push({
+                  "id": child.key,
+                  "nickname": child.val().player1.nickname,
+                  "Score": child.val().player1.Score,
+                  "Rating": child.val().player1.Rating,
+                  "secondplayernickname": child.val().player2.nickname,
+                  "secondplayerScore": child.val().player2.Score,
+                  "secondplayerRating": child.val().player2.Rating,
+                })
+              } else {
+                playerNames.push({
+                  "==index.html///id": child.key,
+                  "nickname": child.val().player1.nickname,
+                  "Score": child.val().player1.Score,
+                  "Rating": child.val().player1.Rating,
+                  "secondplayerScore": child.val().player2.Score,
+                })
+
+              }
+              // console.log(child.key)
+            });
+            playerNames.sort((a, b) => (a.Rating < b.Rating) ? 1 : -1)
+            playerNames.forEach((element) => {
+
+              if (element.id != undefined) {
+                scoreTable.innerHTML += "<tr><td>" + element.nickname + "</td><td>" + element.Rating + "</td></tr>"
+              }
+
+            });
+          }
+        }
+
+      });
+    }
+
+    console.log(playerNames)
+    //inserting data into database 
+    let playerNamesItr;
+    let playerRating = 0;
+    function insertUser() {
+      let userName = document.getElementById("nickName").value;
+      let playerNameIndex = 0;
+      for (playerNamesItr = 0; playerNamesItr < playerNames.length; playerNamesItr++) {
+        if (playerNames[playerNamesItr].nickname == userName) {
+          playerNameIndex = playerNamesItr;
+          break;
+        }
+      }
+
+      let initialScore = 0;
+      //check for empty entry and already existed user 
+      if (userName !== "" && (playerNames[playerNameIndex].nickname != userName)) {
+        // user entry in DB
+        set(ref(db, "Player Details/" + (currentSerialCount + 1) + "/"), {
+          "player1": {
+            nickname: userName,
+            Score: initialScore,
+            Rating: playerRating
+          },
+          "player2": {
+            nickname: 'computer',
+            Score: initialScore,
+            Rating: playerRating
+          }
+
+        })
+
+          .then(() => {
+            alert('You are Registered...')
+            location.href = '../HTML/selectPage.html';
+            // alert('okkkk')
+          })
+          .catch((error) => {
+            alert("error aa gai h");
+          });
+        // end
+
+        // SerialCount Update in DB
+        set(ref(db, "SerialCount"), (currentSerialCount + 1))
+          .then(() => {
+            // alert("serial count update");
+          })
+          .catch((error) => {
+            // alert("error");
+          });
+        localStorage.setItem('userName', userName);
+        
+      }
+
+      else if (playerNames[playerNameIndex].nickname == userName) {
+        alert("WELCOME BACK " + userName + ".");
+        
+
+        localStorage.setItem("userName", playerNames[playerNameIndex].nickname)
+        localStorage.setItem("RightScore", playerNames[playerNameIndex].Score)
+        localStorage.setItem("LeftScore", playerNames[playerNameIndex].secondplayerScore)
+        localStorage.setItem("ID", playerNames[playerNameIndex].id)
+        localStorage.setItem("Rating", playerNames[playerNameIndex].Rating)
+        localStorage.setItem("Rating222", playerNames[playerNameIndex].secondplayerRating)
+        location.href = "../HTML/selectPage.html";
+
+      }
+      else {
+        alert("please enter valid username");
+      }
+    } //end
+    // end   
+    // fetching data from SerialCount Collection
+    function serialcountFetch() {
+      const databaseRef = ref(db);
+      get(child(databaseRef, "SerialCount")).then((snapshot) => {
+        if (snapshot.exists()) {
+          currentSerialCount = snapshot.val();
+          console.log(currentSerialCount);
+          localStorage.setItem("ID", currentSerialCount + 1);
+          // localStorage.setItem("ID", currentSerialCount );
+
+        }
+      });
+    }
+
+  </script>
+  <script src = "../JS/CatchFile.js"></script>
+</body>
+
+</html>

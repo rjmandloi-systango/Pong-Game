@@ -1,0 +1,26 @@
+body{
+    /* background-image: url("../img/darkHome.jpeg"); */
+
+     background-image: url("../Images/loginPage.jpeg");
+     /* background-color: aqua; */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+form{
+ 
+    background-color: rgba(255,255,255,0.4);
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+    border-radius: 20px;
+}
+.text-muted{
+    text-shadow: 2px 2px cyan;
+}
+.form-label{
+
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 30px;
+    
+}
